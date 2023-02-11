@@ -4,7 +4,6 @@ import cv2
 from matplotlib import pyplot as plt
 import numpy as np
 
-
 model = hub.load('https://tfhub.dev/google/movenet/multipose/lightning/1')
 movenet = model.signatures['serving_default']
 
@@ -60,7 +59,12 @@ cap = cv2.VideoCapture(0)
 while cap.isOpened:
     ret, frame = cap.read()
     
+    
     img = frame.copy()
+    
+    img = cv2.flip(img, 1)
+    frame = cv2.flip(frame, 1)
+    
     img = tf.image.resize_with_pad(tf.expand_dims(img, axis=0), 384, 640)
     input_img = tf.cast(img, dtype = tf.int32)
     
