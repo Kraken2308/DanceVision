@@ -81,7 +81,7 @@ class poseDetector():
 
 absList = []
 
-def main():
+def main(fileAddress):
     # cap = cv2.VideoCapture(0) # - overloaded
 
     cap = cv2.VideoCapture("./Assets/Q9J9xyGC.mov")
@@ -138,8 +138,8 @@ def getAbsList():
 
 
 
-if __name__ == "__main__":
-    main()
+# if __name__ == "__main__":
+#     main()
 
 
 print('--------Printing All Final Data!!----------')
@@ -168,23 +168,37 @@ def calcAngle(f, n1, n2, n3):
     return angle
 
 
-jointNodes = [[13, 11, 23], [15, 13, 11], [14, 12, 24], [16, 14, 12], [11, 23, 25], [23, 25, 27], [25, 27, 31], [12, 24, 26], [24, 26, 28], [24, 26, 28], [26, 28, 32]]
+def createAngleList():
 
-angleList = []
+    jointNodes = [[13, 11, 23], [15, 13, 11], [14, 12, 24], [16, 14, 12], [11, 23, 25], [23, 25, 27], [25, 27, 31], [12, 24, 26], [24, 26, 28], [24, 26, 28], [26, 28, 32]]
 
-for i in range(len(getAbsList())):
+    angleList = []
 
-    x = i % 10
+    for i in range(len(getAbsList())):
 
-    subList = []
+        x = i % 10
 
-    for j in range(10):
-        a, b, c = jointNodes[j][0], jointNodes[j][1], jointNodes[j][2]
-        angle = calcAngle(i, a, b, c)
-        subList.append(round(angle, 3))
+        subList = []
 
-    angleList.append(subList)
+        for j in range(10):
+            a, b, c = jointNodes[j][0], jointNodes[j][1], jointNodes[j][2]
+            angle = calcAngle(i, a, b, c)
+            subList.append(round(angle, 3))
+
+        angleList.append(subList)
+
+        return angleList
 
 
-print('\n\n\n-----------Printing Angle List!!-----------')
-print(angleList)
+# print('\n\n\n-----------Printing Angle List!!-----------')
+# print(angleList)
+
+
+def getAngleList(fileAddress):
+    main(fileAddress)
+    return createAngleList()
+
+
+
+print('\n\n\nFinal Print!!')
+print(getAngleList("./Assets/Q9J9xyGC.mov"))
