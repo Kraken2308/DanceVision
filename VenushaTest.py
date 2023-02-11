@@ -1,5 +1,6 @@
 import numpy as np
 from scipy.spatial.distance import euclidean
+# from moviepy.editor import *
 
 from fastdtw import fastdtw
 
@@ -43,16 +44,16 @@ def SD_List_Creator(coach_List, player_List , path): #path taken from DTW functi
         SD_List = compare_angle_lists(coach_List, player_List)        
     return SD_List
 
+def flagged_seconds_list_creator(SD_List): #take from SD_List_Creator
 
-# code not implemented; check with angan for accuracy
-    for i in player_List:
-        if coach_List[i] == player_List[i]:
-            continue
-        percentError = abs(((player_List[i] - abs(coach_List)) / coach_List)) * 100
-
-        if percentError >= leewayPercentage:
+    leeway_Percentage = 15
+    flagged_timestamps = []
+    for i in SD_List:
+        if percentError >= leeway_Percentage:
             timestamp = i * 1/30 # check 30 to make sure its fps
-            timestamps.append(timestamp)
-
-
+            flagged_timestamps.append(timestamp)
+    return flagged_timestamps
+        
+    
+# figure out how tf i convert
 
