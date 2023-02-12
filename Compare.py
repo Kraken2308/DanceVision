@@ -5,6 +5,7 @@ from scipy.spatial.distance import euclidean
 
 from SinglePersonTracking import getAngleList
 from SinglePersonTracking import poseDetector
+from PercentError import compare_angle_lists
 
 from fastdtw import fastdtw
 
@@ -17,8 +18,8 @@ print(testPath)
 
 # Step 1 - Get angle lists for Input A and Input B
 
-list1 = getAngleList("./Assets/TikTokDance1.mp4")
-list2 = getAngleList("./Assets/TikTokDance2.mp4") 
+list1 = getAngleList("Assets/TikTokDance1.mp4")
+list2 = getAngleList("Assets/TikTokDance2.mp4")
 
 print('\n\n Printing List1:   ')
 print(list1)
@@ -42,55 +43,25 @@ print('\n---------Printing Path Array (Index Match Ups)---------')
 print(path)
 
 
-print('Length of Path: ' + str(len(path))) # this is equal to the length of the biggest list
+print('Length of Path: ' + str(len(path))) # this is equal to or greater than (why?) the length of the biggest list
 
 
-# Step 3 - Use Path to get aggregate Standard Deviation Difference per frame!
+# Step 3 - Use Path to get aggregate Percent Error Difference per frame!
 
+result = compare_angle_lists(list1, list2, path)
 
+percentErrorList = result[0]
+flaggedTimeStamps = result[1]
+danceScore = result[2]
 
+print('\n\nPercentErrorList: ')
+print(percentErrorList)
+
+print('\n\nFlaggedTimeStamps: ')
+print(flaggedTimeStamps)
+
+print('\n\nDance Score: ')
+print(danceScore)
 
 
 # Step 4 - Superimpose Input A nodes-only video on top of Input B's video!!
-
-
-# cap = cv2.VideoCapture(0) # - overloaded
-
-
-
-capNode = cv2.VideoCapture("./Assets/TikTokDance1.mp4")
-cap = cv2.VideoCapture("./Assets/TikTokDance2.mp4")
-
-
-
-pTime = 0
-detector = poseDetector()
-
-
-while True:
-    success, img = cap.read()
-    success2, img2 = capNode.read()
-    # img = ~img
-    img = cv2.flip(img, 1)
-    img = detector.findPose(img)
-    #lmList = detector.findPosition(img, draw=False)
-
-
-    cTime = time.time()
-    fps = 1 / (cTime - pTime)
-    pTime = cTime
-
-
-    img = cv2.flip(img, 1)
-
-    # cv2.putText(img, "Dance Pose Analysis:", (70, 50), cv2.FONT_HERSHEY_PLAIN, 3,
-    #             (255, 0, 0), 3)
-
-
-    cv2.imshow("Image", img)
-
-    if (cv2.waitKey(10) & 0xFF == ord('q')):
-        break
-
-    # cv2.waitKey(0)
-    # break
