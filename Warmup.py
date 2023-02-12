@@ -42,7 +42,7 @@ pose_list = []
 for doc in docs:
     pose_list.append(doc.to_dict())
     # print(f'{doc.id} => {doc.to_dict()}')
-print(pose_list)
+# print(pose_list)
 
 #Will store warmup poses
 warmup_list = []
@@ -59,10 +59,10 @@ for pose in pose_list:
     if pose['pose_name'] in warmup_name_list:
         warmup_list.append(pose)
         
-print("<--------------------->")
+# print("<--------------------->")
 
-for warmup in warmup_list:
-    print(warmup['pose_name'])
+# for warmup in warmup_list:
+    # print(warmup['pose_name'])
 
 #Getting video input from user's webcam
 cap = cv2.VideoCapture(0)
@@ -79,7 +79,7 @@ test_angles = []
 for warmup in warmup_list:
     test_angles.append(warmup['angles'])
 
-print(test_angles)
+# print(test_angles)
 
 #Instantiating pose detector
 detector = pm.poseDetector()
