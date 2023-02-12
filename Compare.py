@@ -15,11 +15,13 @@ y = np.array([[2,2], [3,3], [4,4]])
 testDistance, testPath = fastdtw(x, y, dist=euclidean)
 print(testPath)
 
+ref1 = "Assets/RobotDance.mov"
+ref2 = "Assets/VenushaDance.mov"
 
 # Step 1 - Get angle lists for Input A and Input B
 
-list1 = getAngleList("Assets/TikTokDance1.mp4")
-list2 = getAngleList("Assets/TikTokDance2.mp4")
+list1 = getAngleList(ref1)
+list2 = getAngleList(ref2)
 
 print('\n\n Printing List1:   ')
 print(list1)
@@ -58,7 +60,7 @@ print('\n\nPercentErrorList: ')
 print(percentErrorList)
 
 print('\n\nFlaggedTimeStamps: ')
-print(flaggedTimeStamps)
+print(list(set(flaggedTimeStamps)))
 
 print('\n\nDance Score: ')
 print(danceScore)
@@ -68,8 +70,8 @@ print(danceScore)
 
 detector = poseDetector()
 
-cap1 = cv2.VideoCapture("Assets/TikTokDance1.mp4")
-cap2 = cv2.VideoCapture("Assets/TikTokDance2.mp4")
+cap1 = cv2.VideoCapture(ref1)
+cap2 = cv2.VideoCapture(ref2)
 
 width1  = cap1.get(3)
 height1 = cap1.get(4)
