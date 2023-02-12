@@ -79,16 +79,18 @@ class poseDetector():
         return angle
 
 
-absList = []
+
 
 def main(fileAddress):
     # cap = cv2.VideoCapture(0) # - overloaded
 
-    cap = cv2.VideoCapture("./Assets/Q9J9xyGC.mov")
+    cap = cv2.VideoCapture(fileAddress)
 
 
     pTime = 0
     detector = poseDetector()
+
+    absList = []
 
     while True:
         success, img = cap.read()
@@ -127,14 +129,13 @@ def main(fileAddress):
         if (cv2.waitKey(10) & 0xFF == ord('q')):
             break
 
-        cv2.waitKey(0)
-        break # TO-DO: Remove!!
+        # cv2.waitKey(0)
+        # break
 
 
-
-
-def getAbsList():
     return absList
+
+
 
 
 
@@ -142,12 +143,8 @@ def getAbsList():
 #     main()
 
 
-print('--------Printing All Final Data!!----------')
-absList = getAbsList()
-print(absList)
 
-
-def calcAngle(f, n1, n2, n3):
+def calcAngle(f, absList, n1, n2, n3):
 
     # Get the landmarks
     y3 = absList[f][n3][2]
@@ -168,37 +165,37 @@ def calcAngle(f, n1, n2, n3):
     return angle
 
 
-def createAngleList():
+def createAngleList(absList):
 
     jointNodes = [[13, 11, 23], [15, 13, 11], [14, 12, 24], [16, 14, 12], [11, 23, 25], [23, 25, 27], [25, 27, 31], [12, 24, 26], [24, 26, 28], [24, 26, 28], [26, 28, 32]]
 
     angleList = []
 
-    for i in range(len(getAbsList())):
-
-        x = i % 10
+    for i in range(len(absList)):
 
         subList = []
 
+        # for each frame: 
         for j in range(10):
             a, b, c = jointNodes[j][0], jointNodes[j][1], jointNodes[j][2]
-            angle = calcAngle(i, a, b, c)
+            angle = calcAngle(i, absList, a, b, c)
             subList.append(round(angle, 3))
 
         angleList.append(subList)
 
-        return angleList
+    return angleList
 
 
-# print('\n\n\n-----------Printing Angle List!!-----------')
-# print(angleList)
 
 
 def getAngleList(fileAddress):
-    main(fileAddress)
-    return createAngleList()
+    absList = main(fileAddress)
+    print('Debug: Done With GetAngleList!!')
+    print('\n\n\n Printing AbsList!! --------------')
+    print(absList)
+    return createAngleList(absList)
 
 
 
-print('\n\n\nFinal Print!!')
-print(getAngleList("./Assets/Q9J9xyGC.mov"))
+# print('\n\n\nFinal Print!!')
+# print(getAngleList("./Assets/Q9J9xyGC.mov"))
