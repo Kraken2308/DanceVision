@@ -25,13 +25,31 @@ class poseDetector():
                                      , min_tracking_confidence=0.5
                                      )
 
-    def findPose(self, img, draw=True):
+    def findPose(self, img, draw=True, nodes_only=False):
         imgRGB = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
         self.results = self.pose.process(imgRGB)
         if self.results.pose_landmarks:
             if draw:
                 self.mpDraw.draw_landmarks(img, self.results.pose_landmarks,
                                            self.mpPose.POSE_CONNECTIONS)
+        return img
+
+    def superimpose(
+            self,
+            img,
+            bg,
+            node_color=(200, 200, 0),
+            node_size=5,
+            connector_color=(170, 150, 0),
+            connector_thickness=5
+    ):
+        imgRGB = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+        self.results = self.pose.process(imgRGB)
+        if self.results.pose_landmarks:
+            self.mpDraw.draw_landmarks(bg, self.results.pose_landmarks,
+                                       self.mpPose.POSE_CONNECTIONS,
+                                       self.mpDraw.DrawingSpec(color=node_color, thickness=2, circle_radius=node_size),
+                                       self.mpDraw.DrawingSpec(color=connector_color, thickness=5, circle_radius=connector_thickness))
         return img
 
     def findPosition(self, img, draw=True):
@@ -136,7 +154,7 @@ def main(fileAddress):
 
         cv2.imshow("Image", img)
 
-        if (cv2.waitKey(10) & 0xFF == ord('q')):
+        if cv2.waitKey(10) & 0xFF == ord('q'):
             break
 
         # cv2.waitKey(0)
