@@ -6,7 +6,7 @@ import math
 
 class poseDetector():
 
-    #Instaniating object
+    #Instaniating variables
     def __init__(self, mode=False, upBody=False, smooth=True,
                  detectionCon=0.5, trackCon=0.5):
 

@@ -8,6 +8,7 @@ import mediapipe as mp
 
 class poseDetector():
 
+    #Instaniating variables
     def __init__(self, mode=False, upBody=False, smooth=True,
                  detectionCon=0.5, trackCon=0.5):
 
@@ -25,6 +26,7 @@ class poseDetector():
                                      , min_tracking_confidence=0.5
                                      )
 
+    #Finds pose of person
     def findPose(self, img, draw=True, nodes_only=False):
         imgRGB = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
         self.results = self.pose.process(imgRGB)
@@ -34,6 +36,7 @@ class poseDetector():
                                            self.mpPose.POSE_CONNECTIONS)
         return img
 
+    #Superimposes the nodes in something
     def superimpose(
             self,
             img,
@@ -52,6 +55,7 @@ class poseDetector():
                                        self.mpDraw.DrawingSpec(color=connector_color, thickness=5, circle_radius=connector_thickness))
         return img
 
+    #Finds position of person
     def findPosition(self, img, draw=True):
         self.lmList = []
         if self.results.pose_landmarks:
@@ -63,7 +67,7 @@ class poseDetector():
                 if draw:
                     cv2.circle(img, (cx, cy), 5, (255, 0, 0), cv2.FILLED)
         return self.lmList
-
+    #Finds angle between three different nodes
     def findAngle(self, img, p1, p2, p3, draw=True):
 
         # Get the landmarks
