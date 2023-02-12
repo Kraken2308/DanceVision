@@ -5,7 +5,7 @@ import math
 
 
 class poseDetector():
-
+    
     #Instaniating variables
     def __init__(self, mode=False, upBody=False, smooth=True,
                  detectionCon=0.5, trackCon=0.5):
@@ -75,10 +75,10 @@ class poseDetector():
         
         # Add degrees
         if addNumbers:
-            # cv2.putText(img, str(int(angle)), (x2 - 50, y2 + 50),
-            #             cv2.FONT_HERSHEY_PLAIN, 2, (0, 0, 255), 2)
-            cv2.putText(img, str(p1), (x2 - 50, y2 + 50),
-                        cv2.FONT_HERSHEY_PLAIN, 2, (0, 0, 255), 2)
+            cv2.putText(img, str(int(angle)), (x2 - 50, y2 + 50),
+                        cv2.FONT_HERSHEY_PLAIN, 2, (100, 100, 255), 2)
+            cv2.putText(img, str(p1), (x2 + 30, y2 + 50),
+                        cv2.FONT_HERSHEY_PLAIN, 2, (100, 255, 100), 2)
         return angle
 
 #testing the PoseModule

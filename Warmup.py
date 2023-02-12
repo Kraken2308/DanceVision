@@ -10,6 +10,20 @@ import csv
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
+from contextlib import contextmanager
+import sys, os
+
+#to suppress output
+@contextmanager
+def suppress_stdout():
+    with open(os.devnull, "w") as devnull:
+        old_stdout = sys.stdout
+        sys.stdout = devnull
+        try:  
+            yield
+        finally:
+            sys.stdout = old_stdout
+
 
 
 #Logging into firebase
@@ -125,9 +139,10 @@ while pose_number < len(warmup_list):
     #flip image horizontally to mirror user
     img = cv2.flip(img, 1)
     
+    with suppress_stdout():
     #Shows the user the nodes and finds their pose
-    img = detector.findPose(img, draw = False)
-    lmList = detector.findPosition(img, draw = False)
+        img = detector.findPose(img, draw = False)
+        lmList = detector.findPosition(img, draw = False)
 
     #SHOWS FULL BODY ANGLES
     if len(lmList) != 0:
@@ -165,7 +180,7 @@ while pose_number < len(warmup_list):
         cv2.putText(img, 'Lunge Left!', (50, 50), cv2.FONT_HERSHEY_PLAIN, 4,
                     (0, 0, 255), 4)
         
-    print(pose_number)
+    # print(pose_number)
         
     cv2.imshow("Image", img)
     cv2.waitKey(1)

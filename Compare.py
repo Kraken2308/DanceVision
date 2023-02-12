@@ -52,7 +52,7 @@ result = compare_angle_lists(list1, list2, path)
 
 percentErrorList = result[0]
 flaggedTimeStamps = result[1]
-danceScore = round(result[2], 2)
+danceScore = abs(100 - round(result[2], 2))
 
 print('\n\nPercentErrorList: ')
 print(percentErrorList)
@@ -83,7 +83,8 @@ while True:
         break
 
     img1 = detector.findPose(img1)
-    img2 = detector.superimpose(img2, img1)
+    if success2:
+        img2 = detector.superimpose(img2, img1)
 
     ps.putBText(img1, f"Dance Score: {danceScore}", text_offset_x=20, text_offset_y=20, vspace=10, hspace=10, font_scale=2.0,
                 background_RGB=(0, 0, 0), text_RGB=(255, 255, 255))
